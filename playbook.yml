@@ -1,0 +1,21 @@
+- hosts: all
+  become: yes
+  gather_facts: False
+  pre_tasks:
+    - name: Install python
+      raw: test -e /usr/bin/python || (apt -y update && apt install -y python)
+      changed_when: False
+
+  vars:
+    - user: crezy
+    - docker_group: docker
+    - ubuntu_version: bionic
+
+  roles:
+  - docker
+  - redis
+  - poll
+  - postgres
+  - result
+  - worker
+  - network
